@@ -1,5 +1,11 @@
 from fastapi import FastAPI
 
-app=FastAPI()
+app = FastAPI()
 
-@app.get('/')
+@app.get("/")
+async def read_root():
+    return {"Hello": "World"}
+
+@app.get("/{name}")
+async def read_item(name: str):
+    return {"Hello": name}

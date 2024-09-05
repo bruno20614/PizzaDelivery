@@ -2,7 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base,sessionmaker
 
 
-engine=create_engine('postgresql://postgres:nathanoj35@localhost/pizza_delivery',
+engine=create_engine('postgresql://postgres:postgres@postdb/pizzaDeliverydb',
     echo=True
 )
 
