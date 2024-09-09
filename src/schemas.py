@@ -3,7 +3,7 @@ from typing import Optional
 
 
 class SingUpModel(BaseModel):
-    id=[int]
+    id=Optional[int]
     username=str
     email=str
     password=str
@@ -15,8 +15,11 @@ class Config:
     orm__mode=True
     schema_extra={
         'example':{
-            "username":"Bruno Costa"
-            "brunocdl9@ga"
+            "id": 1,
+                "username": "Bruno Costa",
+                "email": "brunocdl9@ga.com",
+                "password": "securepassword",
+                "is_staff": False,
+                "is_active": True
         }
     }
-
