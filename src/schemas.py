@@ -11,7 +11,7 @@ class SingUpModel(BaseModel):
     is_active=Optional[bool]
 
 
- class Config:
+class Config:
     orm__mode=True
     schema_extra={
         'example':{
