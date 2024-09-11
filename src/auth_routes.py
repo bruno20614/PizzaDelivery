@@ -1,14 +1,15 @@
-from fastapi import APIRouter,status
+from fastapi import APIRouter,status,Depends
 from models import User
 from database import Session,engine
-from schemas import SingUpModel
+from schemas import SingUpModel,LoginModel
 from fastapi.exceptions import HTTPException
 from werkzeug.security import generate_password_hash , check_password_hash
-
+from fastapi_jwt_auth import AuthJWT
 auth_router=APIRouter(
     prefix = '/auth',
     tags=['auth']
 )
+
 
 Session=Session(bind=engine)
 
@@ -22,16 +23,16 @@ async def signup(user:SingUpModel):
     db_email=Session.query(User).filter(User.email==user.email).first()
 
     if db_email is not None:
-            return HTTPExceptionxception(status_code=status.HTTP_400_BAD_REQUEST,      
-                       detail="User with the email already exists" 
-                       )
+        return HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
+                             detail="User with the email already exists"
+                             )
     db_username=Session.query(User).filter(User.username== user.username).first()
 
     if db_email is not None:
          return HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
                         detail="User with the username already exists"
                         )
-    
+
     new_user=User(
          username=user.username,
          email=user.email,
@@ -45,3 +46,12 @@ async def signup(user:SingUpModel):
     Session.commit()
 
     return new_user
+
+#Login route
+
+@auth_router.post('/login')
+async def login( user:LoginModel,Authorize:AuthJWT=Depends()):
+    db_user=Session.query(User).filter(user.email==user.email).fisrt()
+
+    if db_user and  check_password_hash(db_user.password,user.password):
+        acces_token=Authorize.create_access_token(subject=db_user.username)
