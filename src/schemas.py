@@ -1,8 +1,5 @@
 from pydantic import BaseModel
 from typing import Optional
-from secrets import token_hex
-
-from sqlalchemy import Integer, Column
 
 
 class SingUpModel(BaseModel):
@@ -21,7 +18,7 @@ class Config:
             "id": 1,
                 "username": "Bruno Costa",
                 "email": "brunocdl9@ga.com",
-                "password": "securepassword",
+                "password": "secure-password",
                 "is_staff": False,
                 "is_active": True
         }
@@ -36,20 +33,19 @@ class LoginModel(BaseModel):
 
 
 class OrderModel(BaseModel):
-    id:Optional[int]
-    quantity=int
-    order_status:Optional[str]="PENDING"
-    pizza_size=Optional[str]="SMALL"
-    user_id=Optional[int]
+    id: Optional[int] = None
+    quantity: int = 0
+    order_status: Optional[str] = "PENDING"
+    pizza_size: Optional[str] = "SMALL"
+    user_id: Optional[int] = None
 
-class Config:
-    orm_mode=True
-    schema_extra={
-        'example':{
-            "quantity": 2,
-            "pizza_size": "Large"
+    class Config:
+        orm_mode = True
+        schema_extra = {
+            'example': {
+                "quantity": 2,
+                "pizza_size": "Large"
+            }
         }
-
-    }
 
 
